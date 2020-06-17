@@ -305,7 +305,7 @@ input{
 }
 
 .around-btn{
-    margin-top: 3.5rem;
+    margin-top: 4.5rem;
 }
 
   .error-msg{
@@ -603,7 +603,10 @@ border-bottom: none;
         top: -10px;
         font-size: 14px;
         color: #424143;
-        background-color: #f6f6f6;
+        background: -webkit-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgba(254,254,254,1) 49%, rgb(246, 246, 246) 49%, rgb(246, 246, 246) 100%);
+        background: -moz-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgba(254,254,254,1) 49%, rgb(246, 246, 246) 49%, rgb(246, 246, 246) 100%);
+        background: -o-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgba(254,254,254,1) 49%, rgb(246, 246, 246) 49%, rgb(246, 246, 246) 100%);
+        background: -ms-linear-gradient(bottom, rgb(255, 255, 255) 0%, rgba(254,254,254,1) 49%, rgb(246, 246, 246) 49%, rgb(246, 246, 246) 100%);
     }
 
     .bar {
@@ -619,7 +622,6 @@ border-bottom: none;
         width: 0;
         bottom: 1px;
         position: absolute;
-        background: rgb(88, 88, 88);
         transition: 0.2s ease all;
         -moz-transition: 0.2s ease all;
         -webkit-transition: 0.2s ease all;
@@ -649,7 +651,7 @@ border-bottom: none;
     }
 
     .sub-head-height {
-        height: 35px;
+        height: 45px;
         margin: 0;
     }
 
@@ -747,41 +749,43 @@ border-bottom: none;
         box-shadow:none!important;
 
     }
-
-    button.accordion.active:after {
-        content: "\2023";
-        transform: rotate(-90deg) !important;
-        background-color: #7c7b7b;
-
-    }
-
-    button.accordion:after {       
-        transform: rotate(90deg);
-        content: '\2023';
-        color: #fff;
-        font-size: 25px;
-        float: right;
-        transform: rotate(90deg);
-        width: 26px;
-        height: 28px;
-        background-color: #d8d8d8;
-        text-align: center;
-        border-radius: 50%;
-        text-align: center;
+    .fa-play-circle{
+        font-size: 20px;
         position: absolute;
-        right: 25px;
-        line-height: 0;
-        top: 20px;
-        margin-bottom: 2px;
-        padding-top: 15px;
-    }
-    button.accordion:hover::after{    
-        background-color: #7c7b7b;
-    }
-    button.accordion:hover { 
-        background-color: #d8d8d8;
+        right: 10px;
+        top: 25px;
+        font-weight: bold;
+        transform-origin: center center;        
     }
     
+.up.fa-play-circle{
+    transform: rotate(30deg);
+    transition-timing-function: ease-in-out;
+    color:  #707070;
+}
+
+.down.fa-play-circle{
+    transform: rotate(90deg);
+    color:  #d4d4d4;
+}
+button.accordion:hover .fa-play-circle{
+    color: #707070;
+}
+
+    .fa-angle-down,.fa-angle-up{
+    position: absolute;
+    right: 10px;
+    top: 20px;
+    background-color: gray;
+    width: 28px;
+    height: 28px;
+    border-radius: 100px;
+    z-index: 1;
+    text-align: center;
+    color: white;
+    padding-top: 7px;
+    }
+
   .around-panel button{
     position: relative;
     padding: 0.75rem 5rem 0.75rem 0.75rem;

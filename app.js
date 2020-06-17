@@ -4,6 +4,7 @@ var app = angular.module('wsdApp', ['ngSanitize']);
 app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 
 	$scope.apikey = "";
+
 	var apiendpointurlAjax = "https://api.sentient.io/demo-apps/prod/auth";
 	var apicontentType = "application/json";
 
@@ -32,18 +33,22 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 	$scope.htmlText = '';
 	$scope.cololStyles = {};
 	
-	$scope.keywordBox = 'Keyword';
+	$scope.keywordBox = 'Noun';
 	$scope.keywordError = '';	
 	$scope.keywordErrormsg = '';
 	$scope.errorTrue = false;
 	$scope.totalLenShow = false;
+
+	$scope.showAnalysBtn = false;
+	$scope.aftRes = false;
+	$scope.keywrdBx = false;
 
 	$scope.colorCodes = [];
 	$scope.colorCodesFull = ['#D81B60', '#E53935', '#F4511E', '#FB8C00', '#FFB300', '#FDD835', '#C0CA33', '#7CB342', '#43A047', '#00897B'];
 	$scope.colorCodes2res = ['#D81B60', '#FFB300'];
 	$scope.colorCodes3res = ['#D81B60', '#FFB300', '#00897B'];
 	$scope.colorCodes4res = ['#D81B60', '#F4511E', '#FDD835', '#43A047'];
-
+	$scope.realInput = '';
 
 	$scope.analyzeString = function() {
 		$scope.totalLenShow = false;
@@ -54,13 +59,14 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 
 		$scope.keywordErrormsg = '';	
 		$scope.paraString = document.getElementById('textinput').value;
+		$scope.realInput = $scope.paraString;
 		$scope.targetWord = document.getElementById('targetId').value;
 
 		$scope.targetWord = ($scope.targetWord).trim();
   		$scope.wsdResArr = [];
 		$scope.totalLen = 0;
-		var isWordFound = (($scope.paraString).toLowerCase()).search(($scope.targetWord).toLowerCase());
-		if (isWordFound>0){
+		
+		if (($scope.paraString).toLowerCase().indexOf(($scope.targetWord).toLowerCase()) != -1){
 			$.ajax({
 			method: 'POST',
 		    headers:{'x-api-key':$scope.apikey},
@@ -70,6 +76,7 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 			
 			success: function (response) {
 				$scope.loadeer = false;
+				$scope.aftRes = true;
 				$scope.resultObj = {};
 				$scope.resultObj = response.sentence_index;
 				$scope.resultObjTkn = response.tokens;
@@ -134,6 +141,9 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 
 				$scope.index = 0;
 
+
+				$scope.paraString = $scope.paraString.replace(/\n/ig, '__');
+				// $scope.paraString = $scope.paraString.replace(/(?:\r\n|\r|\n)/g, ' ');
 				sentance = ($scope.paraString).split( /[\.!\?]+/ );
 				for (var j=0; j<sentance.length; j++){
 					var wordsList = [];
@@ -149,6 +159,9 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 						inputPara += " ";
 					}
 					inputPara += '.'
+					inputPara = inputPara.replace(' . .', '.');
+					inputPara = inputPara.replace(' . ', '. ');
+					inputPara = inputPara.replace(' .__', '.__');
 					if (flagArr.includes(($scope.targetWord.toLowerCase()).trim())){
 						$scope.index += 1;
 						if ($scope.index == $scope.colorCodes.length){
@@ -159,11 +172,15 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 				
 
 				if ($scope.totalLen>0){
+					inputPara = inputPara.replace(/__/ig, '<br />');
 					$scope.htmlText = $sce.trustAsHtml(inputPara);
 					document.getElementById('textinput').style.display = 'none';
+					document.getElementById('textinputDiv').style.display = 'block'; 
 				}
 				else{
 					document.getElementById('textinput').style.display = 'none';
+					document.getElementById('textinputDiv').style.display = 'block';
+					$scope.paraString = $scope.paraString.replace(/__/ig, '<br />');
 					$scope.htmlText = $scope.paraString; 
 				}
 				$scope.totalLenShow = true;
@@ -174,11 +191,22 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 				document.getElementById("loader").style.display = 'none';
 				document.getElementById('text-error').style.display = 'none';
 				$("#confirmation-modal").modal();
-				document.getElementById("errorTxt").innerHTML = err.statusText;
+				if ((err.responseText).includes('message')){
+					var obj = JSON.parse(err.responseText);
+				}
+				var errorMsg = "";
+				if (obj){
+					errorMsg = obj.message;
+				}
+				else{
+					errorMsg = err.responseText
+				}
+				document.getElementById("errorTxt").innerHTML = errorMsg;
 			}
 		});
 		}else{
 			$scope.loadeer = false;
+			// inputPara = $scope.paraString.replace(/__/ig, '<br />');
 			document.getElementById('textinput').style.display = 'none';
 			$scope.htmlText = $scope.paraString;
 			$scope.keywordError = 'Invalid keyword';
@@ -202,6 +230,11 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 			}
 			inputPara += " ";
 		});
+		inputPara = inputPara.replace(' . .', '.');
+		inputPara = inputPara.replace(' . . ', '. ');
+		inputPara = inputPara.replace(' . ', '. ');
+		inputPara = inputPara.replace(' .__', '.__');
+		inputPara = inputPara.replace(/__/ig, '<br />');
 		return $sce.trustAsHtml(inputPara);
 	}
 
@@ -217,6 +250,8 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 
 
 	$scope.textClear = function(){
+		$scope.wsdResArr = []
+		$scope.showAnalysBtn = false;
 		var txtInput = document.getElementById('textinput');
 		var tarid = document.getElementById('targetId');
 		$scope.totalLenShow = false;
@@ -230,7 +265,34 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 		tarid.value = '';
 		tarid.style.border = "1px solid gray";
 		tarid.style.color = "gray";
-		contentCount();
+		$scope.contentCount();
 	}
+
+	$scope.contentCount = function(){
+        $scope.keywrdBx = false;
+        var textinput = document.getElementById('textinput').value;
+        var textinputBx2 = document.getElementById('targetId').value;
+        document.getElementById('count').innerHTML = "Characters : " + (textinput.length + " / 5000");
+        if (textinput.length >= 5001) {
+        	$scope.showAnalysBtn = false;
+            $("#confirmation-modal").modal();
+            document.getElementById("errorTxt").innerHTML = "Content allow upto 5000 Characters. Please Try Again...";
+            return false;
+        }
+        else if ((textinput.length >0 && textinput.length <=5000) && textinputBx2){
+        	$scope.showAnalysBtn = true;
+        	$scope.keywrdBx = true;
+        }
+        else if (textinput.length <1 ){
+        	$scope.showAnalysBtn = false;
+        }
+    }
+
+    $scope.editInput = function(){
+    	$scope.aftRes = false;
+    	document.getElementById('textinput').value = $scope.realInput; 
+    	document.getElementById('textinputDiv').style.display = 'none'; 
+    	document.getElementById('textinput').style.display = 'block'; 
+    }
 
 }]);
