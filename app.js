@@ -3,22 +3,21 @@
 var app = angular.module('wsdApp', ['ngSanitize']);
 app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 
-	$scope.apikey = "";
+$scope.apikey = "";
+var apiendpointurlAjax = "https://api.sentient.io/demo-apps/prod/auth";
+var apicontentType = "application/json";
 
-	var apiendpointurlAjax = "https://api.sentient.io/demo-apps/prod/auth";
-	var apicontentType = "application/json";
-
-	$.ajax({
-		method: 'GET',
-		contentType: apicontentType,
-		url: apiendpointurlAjax,
-		success: function (response) {
-			$scope.apikey = response.apikey;
-		},
-		error: function (err) {
-			$("#confirmation-modal").modal();
-			document.getElementById("errorTxt").innerHTML = "Please check your content and Try Again...";
-		}
+$.ajax({
+	method: 'GET',
+	contentType: apicontentType,
+	url: apiendpointurlAjax,
+	success: function (response) {
+		scope.apikey = response.apikey;
+	},
+	error: function (err) {
+		$("#confirmation-modal").modal();
+		document.getElementById("errorTxt").innerHTML = "Please check your content and Try Again...";
+	}
 	});
 
 
