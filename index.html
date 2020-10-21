@@ -1,36 +1,32 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>/*<![CDATA[*/window.zE || (function (e, t, s) { var n = window.zE = window.zEmbed = function () { n._.push(arguments) }, a = n.s = e.createElement(t), r = e.getElementsByTagName(t)[0]; n.set = function (e) { n.set._.push(e) }, n._ = [], n.set._ = [], a.async = true, a.setAttribute("charset", "utf-8"), a.src = "https://static.zdassets.com/ekr/asset_composer.js?key=" + s, n.t = +new Date, a.type = "text/javascript", r.parentNode.insertBefore(a, r) })(document, "script", "35efafaf-9bd0-4f75-8c65-0dffd8aa28eb");
-    </script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149661706-1"></script>
-    <script>
-            window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'UA-149661706-1');
-    </script>
-
+	<!-- Required meta tags -->
+	<meta name="robots" content="noindex" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>WSD Demo App</title>
+	
+    <title>Contextualise Word</title>
+	<!-- Angular -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-sanitize.min.js"></script>
 
+	<!-- favicon CSS -->
     <link rel="icon" href="https://sentient.io/img/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="https://sentient.io/img/favicon.ico" type="image/x-icon">
+	
+	<!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	
+	<!-- Font awesome CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+	
+	<!-- Optional JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="app.js"></script>
-    
-    <style>
-
-    </style>
 </head>
 
 <body ng-app="wsdApp" ng-controller="wsdCtrl" ng-cloak>
@@ -43,14 +39,14 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-sm-8">
-                    <h4 class="title-sent">WSD Demo App</h4> <span class="tag"><em>DEMO</em></span>
+                    <h4 class="title-sent">Contextualise Word</h4> <span class="tag"><em>DEMO</em></span>
                     <p class="mt-2"> This demo app provides the meaning(s) of a specific noun within the context of the entire sentence in English. Paste in a text blurb and search for a specific noun to understand its context within the text.
                     </p>
                 </div>
                 <div class="col-sm-4 text-right">
                     <div class="intro-btns">
                         <div>
-                            <a href="https://platform.sentient.io/demoapps_detail#word_sense_disambiguation" target="_blank">
+                            <a href="https://platform.sentient.io/demoapps_detail#contextualise_word" target="_blank">
                                 <button type="button" class="btn-outline"> More Info </button>
                             </a>
                         </div>
@@ -168,12 +164,13 @@
         </div>
         <div class="row mt-2 pb-2 text-center">
             <h5></h5>
-            <span class="back-to-home"><a><i class="fa fa-long-arrow-left" aria-hidden="true"></i><span> Back to All
+            <span class="back-to-home"><a href="https://platform.sentient.io/demoapps" target="_PARENT"><i class="fa fa-long-arrow-left" aria-hidden="true"></i><span> Back to All
                         Demo
                         Apps</span></a></span>
         </div>
     </div>   
 </div>
+	<!-- Footer -->
     <footer>
         <section class="footer-section">
             <div>
@@ -190,10 +187,11 @@
             </div>
         </section>
     </footer>
-
+	<!-- End footer -->
+	
+	<!-- Modal -->
     <div id="confirmation-modal" class="modal fade" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header border-buttomoNone">
@@ -207,10 +205,11 @@
                     <button type="button" class="btn-solid" data-dismiss="modal">&nbsp; Close</button>
                 </div>
             </div>
-
         </div>
+	</div>
+	<!-- Modal -->
 
-<script src="js/cont.js"></script>
+<script src="js/wsd.js"></script>
 </body>
 <script>  
     var acc = document.getElementsByClassName("accordion");
@@ -226,16 +225,6 @@
             }
         });
     }
-
-    // $('#textinput').keyup(function(){
-    //     var textValue = $('#textinput').val();
-    //     if(textValue !=""){
-    //         $('.btn-analyse').removeClass('analyse-disable');
-    //     }else{
-    //         $('.btn-analyse').addClass('analyse-disable');
-    //     }
-    // });
-
 
     $(document).on("keydown","#textinput" ,function(evt){
         var firstChar = $("#textinput").val()

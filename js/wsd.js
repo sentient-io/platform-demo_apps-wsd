@@ -3,7 +3,7 @@
 var app = angular.module('wsdApp', ['ngSanitize']);
 app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 
-
+	// Variable declaration
 	$scope.loadeer = false;
 	$scope.apiendpointurl = 'https://apis.sentient.io/microservices/nlp/wordsensedisambiguation/v0.1/getpredictions';
 
@@ -32,6 +32,7 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 	$scope.colorCodes4res = ['#D81B60', '#F4511E', '#FDD835', '#43A047'];
 	$scope.realInput = '';
 
+	// Process
 	$scope.analyzeString = function() {
 		$scope.totalLenShow = false;
 		$scope.loadeer = true;
@@ -48,6 +49,7 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
   		$scope.wsdResArr = [];
 		$scope.totalLen = 0;
 		
+		// Calling API
 		if (($scope.paraString).toLowerCase().indexOf(($scope.targetWord).toLowerCase()) != -1){
 			$.ajax({
 			method: 'POST',
@@ -57,6 +59,7 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 		    data: JSON.stringify({"text": $scope.paraString,"target_word": $scope.targetWord, "repeat": "True"}),
 			
 			success: function (response) {
+				// response
 				$scope.loadeer = false;
 				$scope.aftRes = true;
 				$scope.resultObj = {};
@@ -125,7 +128,6 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 
 
 				$scope.paraString = $scope.paraString.replace(/\n/ig, '__');
-				// $scope.paraString = $scope.paraString.replace(/(?:\r\n|\r|\n)/g, ' ');
 				sentance = ($scope.paraString).split( /[\.!\?]+/ );
 				for (var j=0; j<sentance.length; j++){
 					var wordsList = [];
@@ -188,7 +190,6 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 		});
 		}else{
 			$scope.loadeer = false;
-			// inputPara = $scope.paraString.replace(/__/ig, '<br />');
 			document.getElementById('textinput').style.display = 'none';
 			$scope.htmlText = $scope.paraString;
 			$scope.keywordError = 'Invalid keyword';
@@ -199,7 +200,7 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 		}
 	};
 
-
+	// Process text to lowercase
 	$scope.convertPtoHtml = function(txt, tar, clr){
 		var paraArr = [];
   		paraArr = txt.split(' ');
@@ -220,7 +221,6 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 		return $sce.trustAsHtml(inputPara);
 	}
 
-
 	$scope.customiseString = function (str) {
 		if(str){
 			var val = str.replace(/_/g,' ').split('.')[0];
@@ -230,7 +230,7 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 		}
 	}
 
-
+	// Clear text method
 	$scope.textClear = function(){
 		$scope.wsdResArr = []
 		$scope.showAnalysBtn = false;
@@ -250,6 +250,7 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
 		$scope.contentCount();
 	}
 
+	// Characters Count method
 	$scope.contentCount = function(){
         $scope.keywrdBx = false;
         var textinput = document.getElementById('textinput').value;
@@ -269,7 +270,8 @@ app.controller('wsdCtrl', ['$scope', '$sce', function($scope, $sce, $filter) {
         	$scope.showAnalysBtn = false;
         }
     }
-
+	
+	// Input content edit
     $scope.editInput = function(){
     	$scope.aftRes = false;
     	document.getElementById('textinput').value = $scope.realInput; 
